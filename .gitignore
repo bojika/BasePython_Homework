@@ -141,6 +141,5 @@ dmypy.json
 cython_debug/
 
 #Pytest
-testing/
 review.docx
 
