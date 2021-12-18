@@ -3,11 +3,10 @@
 Функции и структуры данных
 """
 from time import monotonic
-from typing import List
 from functools import cache, wraps
 
 
-def power_numbers(*args) -> List[int]:
+def power_numbers(*args) -> list[int]:
     """
     функция, которая принимает N целых чисел,
     и возвращает список квадратов этих чисел
@@ -17,11 +16,11 @@ def power_numbers(*args) -> List[int]:
     return [arg ** 2 for arg in args]
 
 
-def time_it(func):
-    @wraps(func)
+def time_it(some_func):
+    @wraps(some_func)
     def wrapper(*args, **kwargs):
         start = monotonic()
-        res = func(*args, **kwargs)
+        res = some_func(*args, **kwargs)
         print(f'Выполнено за {monotonic() - start} секунд')
         return res
     return wrapper
@@ -41,7 +40,17 @@ def is_prime2(number: int) -> bool:
         (number % i for i in range(3, int(number ** (1 / 2)) + 1, 2)))
 
 
-def filter_numbers(numbers, filter) -> List[int]:
+# -func = {'... - можно объявить до функции, чтобы не создавать каждый раз заново
+# - `not bool(x % 2)` это всё равно что `not x % 2`, но быстрее. в данной ситуации и для odd тоже можно
+# без приведения типа, так как в булевом контексте можно не приводить лишний раз тип, оно произойдёт автоматически
+# - ключи ('odd', и тд) нужно использовать в виде констант, которые объявлены выше
+func = {ODD: lambda x: x % 2,
+        EVEN: lambda x: not x % 2,
+        PRIME: lambda x: is_prime(x)}
+
+
+# в 3.9 уже можно вместо ` -> List[int]:` писать ` -> list[int]:` (то есть использовать встроенный list для аннотации, а не импортировать)
+def filter_numbers(numbers, filter_name) -> list[int]:
     """
     Функция, которая на вход принимает список из целых чисел,
     и возвращает только чётные/нечётные/простые числа
@@ -52,10 +61,7 @@ def filter_numbers(numbers, filter) -> List[int]:
     >>> filter_numbers([2, 3, 4, 5], EVEN)
     <<< [2, 4]
     """
-    func = {'odd': lambda x: bool(x % 2),
-            'even': lambda x: not bool(x % 2),
-            'prime': lambda x: is_prime(x)}
-    return [i for i in numbers if func[filter](i)]
+    return list(filter(func[filter_name],numbers))
 
 
 # is_multiple_3_v2 is better than is_multiple_3_v1
