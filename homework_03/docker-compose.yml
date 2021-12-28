@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  hw_03:
+    build: ./
+    container_name: hw_03
+    image: hw_03:latest
+    ports:
+      - '8000:8000'
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - otus
+
+networks:
+    otus:
+        name: otus-net
