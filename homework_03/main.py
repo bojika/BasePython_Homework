@@ -10,7 +10,7 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/ping/", status=status.HTTP_200_OK)
+@app.get("/ping/", status_code=status.HTTP_200_OK)
 def read_ping():
     return {"message": "pong"}
 
