@@ -13,8 +13,8 @@ RUN set -xeu \
     && pip3 install --no-cache-dir --upgrade pip \
     && pip3 install --no-cache-dir -r requirements.txt
 
-# скопируем всё, что не было скопировано раньше с учётом ограничений .dockerignore
-# * означает запретить всё
+# скопируем все, что не было скопировано раньше с учетом ограничений .dockerignore
+# * означает запретить все
 # ! означает сделать исключение
 COPY . .
 

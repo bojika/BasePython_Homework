@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from fastapi import FastAPI
 from datetime import datetime
 
@@ -10,10 +11,10 @@ def read_root():
 
 
 @app.get("/ping/")
-def read_item():
+def read_ping():
     return {"message": "pong"}
 
 
 @app.get("/time/")
-def read_item():
+def read_time():
     return {"time": datetime.now().strftime('%d.%m.%Y %H:%M:%S')}
