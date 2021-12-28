@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 from datetime import datetime
 
 app = FastAPI()
@@ -10,7 +10,7 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/ping/")
+@app.get("/ping/", status=status.HTTP_200_OK)
 def read_ping():
     return {"message": "pong"}
 
