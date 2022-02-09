@@ -1,0 +1,7 @@
+pytest~=6.2.3
+Faker~=8.1.2
+docker~=5.0.0
+requests~=2.25.1
+SQLAlchemy~=1.4.31
+fastapi~=0.70.1
+aiohttp~=3.8.1
