@@ -17,9 +17,10 @@ import asyncio
 import sys
 from jsonplaceholder_requests import *
 
-import time
-from blog.models import *
+
+from homework_04.models import User, Address, Company, Post, async_session, engine, Base
 from typing import Union
+
 
 async def get_json(session, url):
     async with session.get(url) as resp:
@@ -27,53 +28,54 @@ async def get_json(session, url):
         return json_data
 
 
-async def fill_data(data: list[Union[User, Post]]):
-    ''' Write users or posts to DB'''
+async def fill_data(data):
+    """ Fill tables with data"""
+    print(data)
     async with async_session() as session:
         async with session.begin():
             session.add_all(data)
 
-async def fill_data_1(user: User, post: Post):
-    ''' Write users or posts to DB'''
-    print(user, post)
-    async with async_session() as session:
-        async with session.begin():
-            session.add(user)
-            session.add(post)
 
-async def fill_data_2(users: dict, posts: dict):
-    async with async_session() as session:
-        async with session.begin():
-            for user in users:
-                session.add(User(id=user['id'],
-                                 name=user['name'],
-                                 username=user['username'],
-                                 email=user['email']))
-            for post in posts:
-                session.add(Post(id=post['id'],
-                                 user_id=post['userId'],
-                                 title=post['title'],
-                                 body=post['body']))
-
-
-
-
-
-def mapper(url, data):
+def prep_data(users: dict, posts: dict) -> list[Union[User, Address, Company, Post]]:
     res = []
-    if url == POSTS_DATA_URL:
-        return Post(id=data['id'],
-                    user_id=data['userId'],
-                    title=data['title'],
-                    body=data['body'])
-    if url == USERS_DATA_URL:
-        return User(id=data['id'],
-                    name=data['name'],
-                    username=data['username'],
-                    email=data['email'])
+    for item in users:
+        user = User(
+            id=item['id'],
+            name=item['name'],
+            username=item['username'],
+            email=item['email'],
+            phone=item['phone'],
+            website=item['website'])
+
+        address = Address(
+            street=item['address']['street'],
+            suite=item['address']['suite'],
+            city=item['address']['city'],
+            zipcode=item['address']['zipcode'],
+            geo_lat=float(item['address']['geo']['lat']),
+            geo_lng=float(item['address']['geo']['lng']))
+
+        company = Company(
+            name=item['company']['name'],
+            catchPhrase=item['company']['catchPhrase'],
+            bs=item['company']['bs'])
+
+        user.address = address
+        user.company = company
+        res.append(user)
+        res.append(address)
+        res.append(company)
+
+    for item in posts:
+        res.append(Post(
+            id=item['id'],
+            user_id=item['userId'],
+            title=item['title'],
+            body=item['body']))
+    return res
 
 
-async def main():
+async def async_main():
     # create db tables, in real project should be done with alembic
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
@@ -83,21 +85,18 @@ async def main():
     url_list = [USERS_DATA_URL, POSTS_DATA_URL]
 
     async with aiohttp.ClientSession() as session:
-        data_list = await asyncio.gather(*[get_json(session, url) for url in url_list])
-        users, posts = data_list
-    rows = [mapper(url, item) for url, data in zip(url_list, data_list) for item in data]
-    for row in rows:
-        print(row)
+        users, posts = await asyncio.gather(*[get_json(session, url) for url in url_list])
 
-    await fill_data_2(users, posts)
-    #await fill_data_1(rows[0], rows[10])
-    # await fill_data(rows[:10])
-    # await fill_data(rows[10:])
+    rows = prep_data(users, posts)
+    await fill_data(rows)
 
-if __name__ == "__main__":
-#
+
+def main():
     if sys.platform == "win32":
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    asyncio.run(main())
-#    print("--- %s seconds ---" % (time.time() - start_time))
+    asyncio.run(async_main())
+
+
+if __name__ == "__main__":
+    main()
 
