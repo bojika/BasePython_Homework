@@ -28,15 +28,15 @@ async def get_json(session, url):
         return json_data
 
 
-async def fill_data(data):
+async def fill_data(data: list[Union[User, Address, Company, Post]]):
     """ Fill tables with data"""
-    print(data)
     async with async_session() as session:
         async with session.begin():
             session.add_all(data)
 
 
 def prep_data(users: dict, posts: dict) -> list[Union[User, Address, Company, Post]]:
+    """Create objects: User, Address, Company, Post from dicts users and posts"""
     res = []
     for item in users:
         user = User(
@@ -46,7 +46,6 @@ def prep_data(users: dict, posts: dict) -> list[Union[User, Address, Company, Po
             email=item['email'],
             phone=item['phone'],
             website=item['website'])
-
         address = Address(
             street=item['address']['street'],
             suite=item['address']['suite'],
@@ -54,18 +53,15 @@ def prep_data(users: dict, posts: dict) -> list[Union[User, Address, Company, Po
             zipcode=item['address']['zipcode'],
             geo_lat=float(item['address']['geo']['lat']),
             geo_lng=float(item['address']['geo']['lng']))
-
         company = Company(
             name=item['company']['name'],
             catchPhrase=item['company']['catchPhrase'],
             bs=item['company']['bs'])
-
         user.address = address
         user.company = company
         res.append(user)
         res.append(address)
         res.append(company)
-
     for item in posts:
         res.append(Post(
             id=item['id'],
@@ -81,13 +77,13 @@ async def async_main():
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
-    data_list = []
     url_list = [USERS_DATA_URL, POSTS_DATA_URL]
 
     async with aiohttp.ClientSession() as session:
         users, posts = await asyncio.gather(*[get_json(session, url) for url in url_list])
 
     rows = prep_data(users, posts)
+
     await fill_data(rows)
 
 
@@ -99,4 +95,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

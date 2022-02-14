@@ -10,6 +10,7 @@ class Company(Base):
     name = Column(String(200))
     catchPhrase = Column(String(200))
     bs = Column(String(200))
+    users = relationship("User", back_populates="company")
 
     def __str__(self):
         return f"{self.__class__.__name__}(" \

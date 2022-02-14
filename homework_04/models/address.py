@@ -13,6 +13,7 @@ class Address(Base):
     zipcode = Column(String(20))
     geo_lat = Column(Float)
     geo_lng = Column(Float)
+    user = relationship("User", back_populates="address", uselist=False)
 
     def __str__(self):
         return f"{self.__class__.__name__}(" \

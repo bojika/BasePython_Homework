@@ -11,7 +11,7 @@
 
 from sqlalchemy import Column, Integer
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import declarative_base, sessionmaker, declared_attr
+from sqlalchemy.orm import declarative_base, sessionmaker, declared_attr, DeclarativeMeta
 from homework_04 import config
 
 
@@ -27,7 +27,7 @@ class Base:
     @declared_attr
     def __tablename__(cls):
         """
-        TODO: it's not enough to add "s" to make plural.
+        TODO: it's not enough to add "s" to make a plural but it works for Users and Posts
         """
         return f'{cls.__name__.lower()}s'
 
@@ -37,4 +37,4 @@ class Base:
         return str(self)
 
 
-Base = declarative_base(bind=engine, cls=Base)
+Base: DeclarativeMeta = declarative_base(bind=engine, cls=Base)

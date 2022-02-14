@@ -1,33 +1,7 @@
-from sqlalchemy import Column, Sequence, Integer, String, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from .async_database import Base
 from .mixins import TimestampMixin
-
-'''
-{
-    "id": 1,
-    "name": "Leanne Graham",
-    "username": "Bret",
-    "email": "Sincere@april.biz",
-    "address": {
-        "street": "Kulas Light",
-        "suite": "Apt. 556",
-        "city": "Gwenborough",
-        "zipcode": "92998-3874",
-        "geo": {
-            "lat": "-37.3159",
-            "lng": "81.1496"
-        }
-    },
-    "phone": "1-770-736-8031 x56442",
-    "website": "hildegard.org",
-    "company": {
-        "name": "Romaguera-Crona",
-        "catchPhrase": "Multi-layered client-server neural-net",
-        "bs": "harness real-time e-markets"
-    }
-}
-'''
 
 
 class User(TimestampMixin, Base):
@@ -36,11 +10,11 @@ class User(TimestampMixin, Base):
     username = Column(String(50), unique=True, nullable=False)
     email = Column(String(50), unique=True)
     posts = relationship("Post", back_populates="user")
-    address = relationship("Address")
+    address = relationship("Address", back_populates="user")
     address_id = Column(Integer, ForeignKey('addresses.id'))
     phone = Column(String(150))
     website = Column(String(150))
-    company = relationship("Company")
+    company = relationship("Company", back_populates="users")
     company_id = Column(Integer, ForeignKey('companies.id'))
 
     def __str__(self):
