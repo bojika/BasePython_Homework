@@ -21,6 +21,7 @@ from homework_04.models import User, Address, Company, Post, async_session, engi
 from typing import Union
 
 
+
 async def get_json(session, url):
     async with session.get(url) as resp:
         json_data = await resp.json()

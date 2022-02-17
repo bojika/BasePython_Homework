@@ -18,7 +18,7 @@ from homework_04 import config
 # Specifying echo=True upon the engine initialization will enable us to see generated SQL queries in the console.
 # We should disable the "expire on commit" behavior of sessions with expire_on_commit=False. This is because in async
 # settings, we don't want SQLAlchemy to issue new SQL queries to the database when accessing already committed objects.
-engine = create_async_engine(config.SQLA_CONN_ASYNC_URI, echo=True)
+engine = create_async_engine(config.SQLALCHEMY_PG_CONN_URI, echo=True)
 # engine = create_async_engine(DATABASE_URL, future=True, echo=True) # что такое future, зачем оно нужно?
 async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
