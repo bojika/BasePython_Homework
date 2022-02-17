@@ -15,9 +15,8 @@
 import aiohttp
 import asyncio
 import sys
-from jsonplaceholder_requests import *
 
-
+from homework_04.jsonplaceholder_requests import USERS_DATA_URL, POSTS_DATA_URL
 from homework_04.models import User, Address, Company, Post, async_session, engine, Base
 from typing import Union
 
