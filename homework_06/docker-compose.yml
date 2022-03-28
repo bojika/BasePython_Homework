@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  pg:
+    image: postgres # use latest official postgres version
+    container_name: hw_06_pg
+    environment:
+      POSTGRES_DB: topograph
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+
+  topo_stg:
+    container_name: hw_06_topo_stg
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      CONFIG_NAME: DevelopmentConfig
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://app:password@pg/topograph
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app
+    depends_on:
+      - pg
+
+  topo:
+    container_name: hw_06_topo
+    build:
+      context: .
+      dockerfile: docker-build/Dockerfile
+    environment:
+      CONFIG_NAME: ProductionConfig
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://app:password@pg/topograph
+    ports:
+      - "5080:80"
+    depends_on:
+      - pg
+
+volumes:
+  pg-data:
+
+

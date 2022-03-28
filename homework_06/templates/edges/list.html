@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title -%}
+    Products list
+{%- endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col md-12">
+                <div class="jumbotron p-3">
+                    <p>Добавить ребро графа
+                        <a href="{{ url_for('edges_app.add') }}" class="btn btn-primary btn-sm float-end">Add</a>
+                    </p>
+                    {% if edges %}
+                        <table class="table table-hover">
+                            <thead class="table-info">
+                            <tr>
+                                <td>ID</td>
+                                <td>Node A</td>
+                                <td>Node B</td>
+                                <td>Cost</td>
+                                <td>Meta</td>
+                                <td>Action</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for edge in edges %}
+                                <tr>
+                                    <td>{{ edge.id }}</td>
+                                    <td>{{ edge.node_a }}</td>
+                                    <td>{{ edge.node_b }}</td>
+                                    <td>{{ edge.cost }}</td>
+                                    <td>{{ edge.meta_data }}</td>
+                                    <td>
+                                        <a href="{{ url_for('edges_app.update',  edge_id=edge.id) }}"
+                                           class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{{ url_for('edges_app.edge_delete', edge_id=edge.id) }}"
+                                           class="btn btn-danger btn-sm"
+                                           onclick="return confirm('Вы уверены, что хотите удалить это ребро?')">Delete</a>
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No data yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

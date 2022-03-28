@@ -1,0 +1,30 @@
+Value Required,Filldown LS_ID (([0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}))
+Value Filldown ADV_ROUTER (.*)
+Value Filldown LINKS (.*)
+Value LINK_TYPE (.*)
+Value LINK_NEIGHBOUR (.*)
+Value LINK_DR (.*)
+Value LINK_ADDR (.*)
+Value LINK_MASK (.*)
+Value LINK_COST (.*)
+Value Filldown LSA_TYPE (.)
+Value Filldown ATTACHED_ROUTER (.*)
+
+Start
+  ^.*LS age: -> Next.Clearall
+  ^.*LS Type: ${LSA_TYPE}
+  ^.*Link State ID: ${LS_ID}
+  ^.*Advertising Router: ${ADV_ROUTER}
+  ^.*Number of Links: ${LINKS}
+  ^.*Link connected to: (a ${LINK_TYPE} Network)
+  ^.*Link connected to: (another Router \(${LINK_TYPE}\))
+  ^.*\(Link ID\) Designated Router address: ${LINK_DR}
+  ^.*\(Link ID\) Network/subnet number: ${LINK_ADDR}
+  ^.*\(Link ID\) Neighboring Router ID: ${LINK_NEIGHBOUR}
+  ^.*\(Link Data\) Router Interface address: ${LINK_ADDR}
+  ^.*\(Link Data\) Network Mask: ${LINK_MASK}
+  ^.*Metrics: ${LINK_COST} -> Record
+  ^.*Link State ID: ${LINK_DR} \(address of Designated Router\)
+  ^.*Attached Router: ${ATTACHED_ROUTER} -> Record
+
+EOF

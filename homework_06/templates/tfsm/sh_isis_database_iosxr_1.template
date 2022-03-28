@@ -1,0 +1,7 @@
+Value Filldown NODE_A (\S+)
+Value NODE_B (\S+)
+Value Required METRIC (\d+)
+
+Start
+  ^${NODE_A}-\d\d( *)\** 0x(.*)
+  ^  Metric: ${METRIC}( +)IS-Extended ${NODE_B} -> Record

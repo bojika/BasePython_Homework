@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% from 'macros/back_to_edges_list.html' import back_to_edges_list %}
+
+{% block title %}
+    Импортировать
+{% endblock %}
+
+{% block body %}
+    <form method="POST">
+      <div  class="row">
+          <div class="row-cols-sm-1 p-2">
+              <p>Сюда можно ввести выводы <i class="text-black-50">show ospf database router</i> и
+                  <i class="text-black-50">show ospf database network</i> или <i class="text-black-50">show isis database level 1 detail</i> и <i class="text-black-50">show isis database level 2 detail</i></p>
+        </div>
+        <div class="row-cols-sm-1 p-2">
+            {{ form.hidden_tag() }}
+            {{ form.raw_data(class="form-control") }}
+        </div>
+        <div class="row-cols-sm-1 p-2">
+            <button class="btn btn-primary" type="submit">Add</button>
+        </div>
+      </div>
+
+        <!-- Надо разобраться, что это -->
+        {%- if form.errors %}
+            <ul class="alert alert-danger">
+                {% for field_name, values in form.errors.items() %}
+                    <li>
+                        <strong>{{ field_name }}</strong>
+                        <ul>
+                            {% for error_text in values %}
+                                <li>{{ error_text }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        {%- endif %}
+    </form>
+
+{% endblock body %}

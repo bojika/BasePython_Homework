@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% from 'macros/back_to_edges_list.html' import back_to_edges_list %}
+
+{% block title %}
+    Редактировать ребро
+{% endblock %}
+
+{% block body %}
+    <form method="POST">
+      <div class="row">
+        <div class="col">
+            {{ form.hidden_tag() }}
+            {{ form.node_a(size=20, class="form-control", placeholder="Node A", value=edge.node_a) }}
+        </div>
+        <div class="col">
+            {{ form.node_b(size=20, class="form-control", placeholder="Node B", value=edge.node_b) }}
+        </div>
+        <div class="col">
+            {{ form.cost(size=20, class="form-control", placeholder="Cost", value=edge.cost) }}
+        </div>
+        <div class="col">
+            {{ form.meta_data(size=20, class="form-control", placeholder="Meta", value=edge.meta_data) }}
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" type="submit">Add</button>
+        </div>
+      </div>
+
+        <!-- Надо разобраться, что это -->
+        {%- if form.errors %}
+            <ul class="alert alert-danger">
+                {% for field_name, values in form.errors.items() %}
+                    <li>
+                        <strong>{{ field_name }}</strong>
+                        <ul>
+                            {% for error_text in values %}
+                                <li>{{ error_text }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        {%- endif %}
+    </form>
+
+{% endblock body %}

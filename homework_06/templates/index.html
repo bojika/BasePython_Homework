@@ -1,0 +1,323 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <p>Данное приложение рисует граф.</p>
+    <p>Ребра сохраняются в postgress</p>
+    <p>В меню "Edges" выводится список рёбер</p>
+    <p>В меню "Import" позволяет работать с выводами протоколов OSPF или ISIS. Можно скопировать пример ниже и вставить в диалоговое окно.</p>
+    <pre class="">OSPF Router with ID (10.221.1.255) (Process ID 1)
+
+		Net Link States (Area 0)
+
+  LS age: 1364
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.0 (address of Designated Router)
+  Advertising Router: 10.221.1.1
+  LS Seq Number: 80008281
+  Checksum: 0x28D
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.1
+	Attached Router: 10.221.1.2
+
+  LS age: 1707
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.3 (address of Designated Router)
+  Advertising Router: 10.221.1.15
+  LS Seq Number: 80003E4E
+  Checksum: 0x954D
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.15
+	Attached Router: 10.221.1.7
+
+  LS age: 1364
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.8 (address of Designated Router)
+  Advertising Router: 10.221.1.1
+  LS Seq Number: 800005F9
+  Checksum: 0x1D71
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.1
+	Attached Router: 10.221.1.255
+
+  LS age: 590
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.10 (address of Designated Router)
+  Advertising Router: 10.221.1.254
+  LS Seq Number: 80004649
+  Checksum: 0x1F7
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.254
+	Attached Router: 10.221.1.7
+
+  LS age: 128
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.25 (address of Designated Router)
+  Advertising Router: 10.221.1.8
+  LS Seq Number: 80002A49
+  Checksum: 0x8E6B
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.8
+	Attached Router: 10.221.1.1
+
+  LS age: 972
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.62 (address of Designated Router)
+  Advertising Router: 10.221.1.15
+  LS Seq Number: 8000001C
+  Checksum: 0x845A
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.15
+	Attached Router: 10.221.2.63
+
+  LS age: 297
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.65 (address of Designated Router)
+  Advertising Router: 10.221.1.11
+  LS Seq Number: 8000601D
+  Checksum: 0xBE03
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.11
+	Attached Router: 10.221.1.1
+
+  LS age: 1931
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.67 (address of Designated Router)
+  Advertising Router: 10.221.1.12
+  LS Seq Number: 80002B50
+  Checksum: 0x7441
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.12
+	Attached Router: 10.221.1.11
+
+  LS age: 305
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.69 (address of Designated Router)
+  Advertising Router: 10.221.1.13
+  LS Seq Number: 80001762
+  Checksum: 0x8A28
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.13
+	Attached Router: 10.221.1.12
+
+  LS age: 1250
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.71 (address of Designated Router)
+  Advertising Router: 10.221.1.14
+  LS Seq Number: 800025B4
+  Checksum: 0xB993
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.14
+	Attached Router: 10.221.1.13
+
+  LS age: 1707
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.73 (address of Designated Router)
+  Advertising Router: 10.221.1.15
+  LS Seq Number: 80000F2E
+  Checksum: 0x7DD
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.15
+	Attached Router: 10.221.1.14
+
+  LS age: 1707
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.75 (address of Designated Router)
+  Advertising Router: 10.221.1.15
+  LS Seq Number: 80002B50
+  Checksum: 0xB1FE
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.15
+	Attached Router: 10.221.1.2
+
+  LS age: 1518
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.77 (address of Designated Router)
+  Advertising Router: 10.221.1.16
+  LS Seq Number: 8000021E
+  Checksum: 0x7395
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.16
+	Attached Router: 10.221.1.1
+
+  LS age: 1824
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.79 (address of Designated Router)
+  Advertising Router: 10.221.1.17
+  LS Seq Number: 8000021E
+  Checksum: 0x36BF
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.17
+	Attached Router: 10.221.1.16
+
+  LS age: 1824
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.81 (address of Designated Router)
+  Advertising Router: 10.221.1.17
+  LS Seq Number: 8000021F
+  Checksum: 0x5BA5
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.17
+	Attached Router: 10.221.1.2
+
+  LS age: 1682
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.97 (address of Designated Router)
+  Advertising Router: 10.221.1.21
+  LS Seq Number: 80002551
+  Checksum: 0xEEA5
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.21
+	Attached Router: 10.221.1.1
+
+  LS age: 1671
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.99 (address of Designated Router)
+  Advertising Router: 10.221.1.22
+  LS Seq Number: 80003237
+  Checksum: 0x584
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.22
+	Attached Router: 10.221.1.21
+
+  LS age: 1671
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.100 (address of Designated Router)
+  Advertising Router: 10.221.1.22
+  LS Seq Number: 80000790
+  Checksum: 0xBEAE
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.22
+	Attached Router: 10.221.1.2
+
+  LS age: 1726
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.129 (address of Designated Router)
+  Advertising Router: 10.221.1.2
+  LS Seq Number: 8000106E
+  Checksum: 0xFD77
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.2
+	Attached Router: 10.221.1.30
+
+  LS age: 1364
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.131 (address of Designated Router)
+  Advertising Router: 10.221.1.32
+  LS Seq Number: 80001079
+  Checksum: 0x5AD0
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.32
+	Attached Router: 10.221.1.31
+
+  LS age: 1364
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.132 (address of Designated Router)
+  Advertising Router: 10.221.1.32
+  LS Seq Number: 80001048
+  Checksum: 0xCE8A
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.32
+	Attached Router: 10.221.1.33
+
+  LS age: 1942
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.135 (address of Designated Router)
+  Advertising Router: 10.221.1.34
+  LS Seq Number: 80001047
+  Checksum: 0xBA98
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.34
+	Attached Router: 10.221.1.33
+
+  LS age: 1942
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.136 (address of Designated Router)
+  Advertising Router: 10.221.1.34
+  LS Seq Number: 80001031
+  Checksum: 0xC0A9
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.34
+	Attached Router: 10.221.1.31
+
+  LS age: 40
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.143 (address of Designated Router)
+  Advertising Router: 10.221.1.30
+  LS Seq Number: 8000104D
+  Checksum: 0x400E
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.30
+	Attached Router: 10.221.1.32
+
+  LS age: 1364
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.158 (address of Designated Router)
+  Advertising Router: 10.221.1.1
+  LS Seq Number: 80001076
+  Checksum: 0xD47C
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.1
+	Attached Router: 10.221.1.31
+
+  LS age: 297
+  Options: (No TOS-capability, DC)
+  LS Type: Network Links
+  Link State ID: 10.221.2.251 (address of Designated Router)
+  Advertising Router: 10.221.1.11
+  LS Seq Number: 80003D60
+  Checksum: 0xAA36
+  Length: 32
+  Network Mask: /31
+	Attached Router: 10.221.1.11
+	Attached Router: 10.221.1.7</pre>
+{% endblock %}
