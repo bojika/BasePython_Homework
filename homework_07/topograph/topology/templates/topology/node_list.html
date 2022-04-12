@@ -1,0 +1,26 @@
+{% extends 'topology/base.html' %}
+
+{% block main_content %}
+    <div class="m-2 p-2">
+    <a href="{% url 'node_create' %}" class="btn btn-warning btn-sm">Add Node</a></div>
+    <table class="table table-hover">
+    <thead class="table-dark">
+        <td>ID</td>
+        <td>Label</td>
+        <td>Meta</td>
+        <td>Action</td>
+    </thead>
+    <tbody>
+        {% for node in object_list %}
+    <tr>
+        <td>{{ node.pk }}</td>
+        <td><a href="{% url 'node_detail' node.pk %}">{{ node.label }}</a></td>
+        <td>{{ node.meta_data }}</td>
+        <td>
+            <a href="{% url 'node_update' node.pk %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'node_delete' node.pk %}" class="btn btn-warning btn-sm">Delete</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

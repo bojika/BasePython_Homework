@@ -1,0 +1,15 @@
+{% extends 'topology/base.html' %}
+
+{% block main_content %}
+    <h1>Edit node</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+    <!-- {{ form.as_p }} -->
+    <div class="row-form-errors">{{ form.non_field_errors }}</div>
+    {% for f in form %}
+        <div><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}:&nbsp</label>{{ f }}</div>
+        <div class="form-check">{{ f.errors }}</div>
+    {% endfor %}
+        <input type="submit" value="Update" />
+    </form>
+{% endblock main_content %}

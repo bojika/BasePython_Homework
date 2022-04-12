@@ -1,0 +1,26 @@
+{% extends 'topology/base.html' %}
+
+{% block main_content %}
+    <table class="table table-hover">
+    <thead class="table-dark">
+        <td>ID</td>
+        <td>Node A</td>
+        <td>Node B</td>
+        <td>Cost</td>
+        <td>Meta</td>
+        <td>Topology</td>
+        <td>Action</td>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ object.pk }}</td>
+        <td><a href="{% url 'node_detail' object.begin.pk %}">{{ object.begin.label }}</a></td>
+        <td><a href="{% url 'node_detail' object.end.pk %}">{{ object.end.label }}</a></td>
+        <td>{{ object.cost }}</td>
+        <td>{{ object.meta_data }}</td>
+        <td><a href="{% url 'topology_detail' object.topology.pk %}">{{ object.topology.description }}</a></td>
+        <td><a href="{% url 'edge_update' object.pk %}" class="btn btn-warning btn-sm">Edit</a></td>
+    </tr>
+    </tbody>
+    </table>
+{% endblock %}

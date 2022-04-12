@@ -1,0 +1,20 @@
+{% extends 'topology/base.html' %}
+
+{% block main_content %}
+    <form method="POST">
+      <div  class="row">
+          <div class="row-cols-sm-1 p-2">
+              <p>Сюда можно ввести выводы <i class="text-black-50">show ospf database router</i> и
+                  <i class="text-black-50">show ospf database network</i> или <i class="text-black-50">show isis database level 1 detail</i> и <i class="text-black-50">show isis database level 2 detail</i></p>
+        </div>
+        <div class="row-cols-sm-1 p-2">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </div>
+        <div class="row-cols-sm-1 p-2">
+            <button class="btn btn-primary" type="submit">Add</button>
+        </div>
+      </div>
+    </form>
+
+{% endblock main_content %}

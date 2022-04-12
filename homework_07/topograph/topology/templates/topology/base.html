@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page_title|default:"Zoo" }}</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'topology/css/bootstrap.min.css' %}">
+
+{% block head %}
+
+{% endblock head %}
+
+</head>
+<body>
+<script src="{% static 'topology/js/bootstrap.min.js' %}"></script>
+{% block menu %}
+
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}">Topograph</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+          <a class="nav-link" href="{% url 'node_list' %}">Nodes</a>
+          <a class="nav-link" href="{% url 'edge_list' %}">Edges</a>
+          <a class="nav-link" href="{% url 'topology_list' %}">Topologies</a>
+          <a class="nav-link" href="{% url 'import_topology' %}">Load Topology</a>
+          <a class="nav-link" href="{% url 'topology_view' %}">View Topology</a>
+          {% if request.user.is_authenticated %}
+              <a class="nav-link">User: {{ request.user }}</a>
+              <a class="nav-link btn btn-sm btn-outline-secondary" href="{% url 'logout' %}">Logout</a>
+          {% else %}
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block main_content %}
+{% endblock main_content %}
+
+</body>
+</html>

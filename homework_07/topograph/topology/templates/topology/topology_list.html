@@ -1,0 +1,29 @@
+{% extends 'topology/base.html' %}
+
+{% block main_content %}
+    <div class="m-2 p-2">
+        <a href="{% url 'topology_create' %}" class="btn btn-warning btn-sm">Add Topology</a>
+    </div>
+    <table class="table table-hover">
+    <thead class="table-dark">
+        <td>ID</td>
+        <td>Description</td>
+        <td>Time Created</td>
+        <td>Time Updated</td>
+        <td>Action</td>
+    </thead>
+    <tbody>
+        {% for topology in object_list %}
+    <tr>
+        <td>{{ topology.pk }}</td>
+        <td><a href="{% url 'topology_detail' topology.pk %}">{{ topology.description }}</a></td>
+        <td>{{ topology.time_created }}</td>
+        <td>{{ topology.time_updated }}</td>
+        <td>
+            <a href="{% url 'topology_update' topology.pk %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'topology_delete' topology.pk %}" class="btn btn-warning btn-sm">Delete</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

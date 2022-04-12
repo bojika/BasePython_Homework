@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  pg:
+    image: postgres # use latest official postgres version
+    container_name: topograph
+    environment:
+      POSTGRES_DB: topograph
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: qwerty
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data/ # persist data even if container shuts down
+
+volumes:
+  pg_data:
+
+
