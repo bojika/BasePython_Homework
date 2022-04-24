@@ -1,0 +1,10 @@
+Value Filldown NODE_A (\S+)
+Value Required,Filldown NODE_A_IP (.*)
+Value Required,Filldown NODE_A_HOSTNAME (.*)
+
+Start
+  ^(.*)0x(.*)\d\/\d\/\d -> Continue.Record
+  ^(.*)0x(.*)\d\/\d\/\d -> Continue.Clearall
+  ^${NODE_A}-\d\d( *)\** 0x(.*)
+  ^  Hostname:( +)${NODE_A_HOSTNAME}
+  ^  IP Address:( +)${NODE_A_IP}

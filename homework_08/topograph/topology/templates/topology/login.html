@@ -1,0 +1,18 @@
+{% extends 'topology/base.html' %}
+
+{% block main_content %}
+<h1>Authentication</h1>
+
+    <form id="add_form" method="post">
+    {% csrf_token %}
+    <!-- {{ form.as_p }} -->
+    <div class="row-form-errors">{{ form.non_field_errors }}</div>
+    {% for f in form %}
+        <p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}: </label>{{ f }}</p>
+        <div class="form-check">{{ f.errors }}</div>
+    {% endfor %}
+    <button class="btn btn-primary" form="add_form" type="submit">Войти</button>
+    </form>
+{% endblock %}
+
+

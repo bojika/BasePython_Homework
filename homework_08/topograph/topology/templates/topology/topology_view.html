@@ -1,0 +1,152 @@
+{% extends 'topology/base.html' %}
+{% load static %}
+{% block head %}
+    <script type="text/javascript" src="{% static 'topology/js/vis.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'topology/css/vis.min.css' %}">
+    <style type="text/css">
+      #mynetwork {
+        width: 100%;
+        height: 600px;
+        border: 1px solid lightgray;
+      }
+    </style>
+{% endblock head %}
+
+{% block main_content %}
+    <div id="mynetwork"></div>
+        <div id="config"></div>
+
+    <script type="text/javascript">
+      // create an array with nodes
+      var nodes = new vis.DataSet({{ nodes|safe }});
+
+      // create an array with edges
+      var edges = new vis.DataSet({{ edges|safe }});
+
+      // create a network
+      var container = document.getElementById("mynetwork");
+      var data = {
+        nodes: nodes,
+        edges: edges,
+      };
+// these are all options in full.
+  var options = {
+      edges: {
+      arrows: {
+        to:     {enabled: true, scaleFactor:1, type:'arrow'},
+        middle: {enabled: false, scaleFactor:1, type:'arrow'},
+        from:    {enabled: false, scaleFactor:1, type:'arrow'}
+      },
+      arrowStrikethrough: true,
+      chosen: true,
+      color: {
+      // color:'#848484',
+      color:'red',
+      highlight:'#848484',
+      hover: '#848484',
+      inherit: 'from',
+      opacity:1.0
+      },
+      dashes: false,
+      font: {
+        color: '#343434',
+        size: 10, // px
+        face: 'tahoma',
+        background: 'none',
+        strokeWidth: 2, // px
+        strokeColor: '#ffffff',
+        align: 'horizontal',
+        multi: false,
+        vadjust: 0,
+        bold: {
+          color: '#343434',
+          size: 14, // px
+          face: 'arial',
+          vadjust: 0,
+          mod: 'bold'
+        },
+        ital: {
+          color: '#343434',
+          size: 14, // px
+          face: 'arial',
+          vadjust: 0,
+          mod: 'italic'
+        },
+        boldital: {
+          color: '#343434',
+          size: 14, // px
+          face: 'arial',
+          vadjust: 0,
+          mod: 'bold italic'
+        },
+        mono: {
+          color: '#343434',
+          size: 15, // px
+          face: 'tahoma',
+          vadjust: 2,
+          mod: ''
+        }
+      }
+    },
+    physics: {
+      enabled: true,
+      barnesHut: {
+        gravitationalConstant: -3000,
+        centralGravity: 0.3,
+        // springLength: 95,
+        springLength: 175,
+        springConstant: 0.04,
+        damping: 0.09,
+        avoidOverlap: 0
+      },
+      forceAtlas2Based: {
+        gravitationalConstant: -500,
+        centralGravity: 0.01,
+        springConstant: 0.08,
+        springLength: 100,
+        damping: 0.4,
+        avoidOverlap: 0
+      },
+      repulsion: {
+        centralGravity: 0.2,
+        springLength: 200,
+        springConstant: 0.05,
+        nodeDistance: 100,
+        damping: 0.09
+      },
+      hierarchicalRepulsion: {
+        centralGravity: 0.0,
+        springLength: 100,
+        springConstant: 0.01,
+        nodeDistance: 120,
+        damping: 0.09
+      },
+      maxVelocity: 50,
+      minVelocity: 0.1,
+      solver: 'barnesHut',
+      stabilization: {
+        enabled: true,
+        iterations: 1000,
+        updateInterval: 100,
+        onlyDynamicEdges: false,
+        fit: true
+      },
+      timestep: 0.5,
+      adaptiveTimestep: true
+    },
+        configure: {
+          filter:function (option, path) {
+            if (path.indexOf('physics') !== -1) {
+              return true;
+            }
+            if (path.indexOf('smooth') !== -1 || option === 'smooth') {
+              return true;
+            }
+            return false;
+          },
+          container: document.getElementById('config')
+        }
+  }
+      var network = new vis.Network(container, data, options);
+    </script>
+{% endblock main_content %}

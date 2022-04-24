@@ -1,0 +1,28 @@
+{% extends 'topology/base.html' %}
+
+{% block main_content %}
+<div class="container">
+<div class="row">
+    <div>
+    <table class="table table-hover">
+    <thead class="table-dark">
+        <td>ID</td>
+        <td>Description</td>
+        <td>Time created</td>
+        <td>Time updated</td>
+        <td>Action</td>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ object.pk }}</td>
+        <td>{{ object.description }}</td>
+        <td>{{ object.time_created }}</td>
+        <td>{{ object.time_updated }}</td>
+        <td><a href="{% url 'topology_update' object.pk %}" class="btn btn-warning btn-sm">Edit</a></td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+</div>
+</div>
+{% endblock %}

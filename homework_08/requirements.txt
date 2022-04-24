@@ -1,0 +1,8 @@
+django
+pillow
+psycopg2-binary
+#psycopg2
+textfsm
+pyyaml
+django-debug-toolbar
+gunicorn
